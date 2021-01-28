@@ -5,6 +5,14 @@
  */
 package GiaoDien;
 
+import DAO.KhoaHocDAO;
+import DAO.ThongKeDAO;
+import Model.KhoaHoc;
+import TienIchHelper.ShareHelper;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author pvsla
@@ -16,6 +24,106 @@ public class TongHopThongKe extends javax.swing.JFrame {
      */
     public TongHopThongKe() {
         initComponents();
+        init();
+        fillComboBoxKhoaHoc();
+        fillTableNguoiHoc();
+        fillTableBangDiem();
+        fillTableTongHop();
+        fillComboBoxNam();
+        fillTableDoanhThu();
+    }
+    ThongKeDAO dao = new ThongKeDAO();
+    KhoaHocDAO khdao = new KhoaHocDAO();
+
+//    TongHopThongKe(int index) {
+//        initComponents();
+//        init();
+//        fillComboBoxKhoaHoc();
+//        fillTableBangDiem();
+//        fillTableNguoiHoc();
+//        fillTableKhoaHoc();
+//        fillComboBoxNam();
+//        fillTableDoanhThu();
+//        tabs.setSelectedIndex(index);
+//    }
+
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
+        setLocationRelativeTo(null);
+    }
+
+    void fillComboBoxKhoaHoc() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboKhoaHoc.getModel();
+        model.removeAllElements();
+
+        List<KhoaHoc> list = khdao.select();
+        for (KhoaHoc kh : list) {
+            model.addElement(kh);
+        }
+        cboKhoaHoc.setSelectedIndex(0);
+    }
+
+    void fillComboBoxNam() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboNam.getModel();
+        model.removeAllElements();
+
+        List<KhoaHoc> list = khdao.select();
+        for (KhoaHoc kh : list) {
+            int nam = kh.getNgayKG().getYear() + 1900;
+            if (model.getIndexOf(nam) < 0) {
+                model.addElement(nam);
+            }
+        }
+        cboNam.setSelectedIndex(0);
+    }
+
+    void fillTableBangDiem() {
+        DefaultTableModel model = (DefaultTableModel) tblKhoaHoc.getModel();
+        model.setRowCount(0);
+
+        KhoaHoc kh = (KhoaHoc) cboKhoaHoc.getSelectedItem();
+        if (cboKhoaHoc.getSelectedItem() == null) {
+        } else {
+            List<Object[]> list = dao.getBangDiem(kh.getMaKH());
+            for (Object[] row : list) {
+                model.addRow(row);
+            }
+        }
+    }
+
+    void fillTableNguoiHoc() {
+        DefaultTableModel model = (DefaultTableModel) tblNguoiHoc.getModel();
+        model.setRowCount(0);
+
+        List<Object[]> list = dao.getNguoiHoc();
+        for (Object[] row : list) {
+            model.addRow(row);
+        }
+    }
+
+    void fillTableTongHop() {
+        DefaultTableModel model = (DefaultTableModel) tblTongHop.getModel();
+        model.setRowCount(0);
+
+        List<Object[]> list = dao.getDiemTheoChuyenDe();
+        for (Object[] row : list) {
+            model.addRow(row);
+        }
+    }
+
+    void fillTableDoanhThu() {
+        DefaultTableModel model = (DefaultTableModel) tblDoanhThu.getModel();
+        model.setRowCount(0);
+
+        if (cboNam.getSelectedItem() == null) {
+            return;
+        } else {
+            int nam = Integer.parseInt(cboNam.getSelectedItem().toString());
+            List<Object[]> list = dao.getDoanhThu(nam);
+            for (Object[] row : list) {
+                model.addRow(row);
+            }
+        }
     }
 
     /**
@@ -28,7 +136,7 @@ public class TongHopThongKe extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabs = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblNguoiHoc = new javax.swing.JTable();
@@ -76,7 +184,7 @@ public class TongHopThongKe extends javax.swing.JFrame {
             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("NGƯỜI HỌC", jPanel1);
+        tabs.addTab("NGƯỜI HỌC", jPanel1);
 
         tblKhoaHoc.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -94,6 +202,11 @@ public class TongHopThongKe extends javax.swing.JFrame {
         jLabel2.setText("KHÓA HỌC:");
 
         cboKhoaHoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboKhoaHoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboKhoaHocActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -121,7 +234,7 @@ public class TongHopThongKe extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("BẢNG ĐIỂM", jPanel2);
+        tabs.addTab("BẢNG ĐIỂM", jPanel2);
 
         tblTongHop.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -147,11 +260,16 @@ public class TongHopThongKe extends javax.swing.JFrame {
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("TỔNG HỢP ĐIỂM", jPanel3);
+        tabs.addTab("TỔNG HỢP ĐIỂM", jPanel3);
 
         jLabel3.setText("NĂM:");
 
         cboNam.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboNam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboNamActionPerformed(evt);
+            }
+        });
 
         tblDoanhThu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -187,7 +305,7 @@ public class TongHopThongKe extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("DOANH THU", jPanel4);
+        tabs.addTab("DOANH THU", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -196,7 +314,7 @@ public class TongHopThongKe extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1)
+                    .addComponent(tabs)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -208,12 +326,22 @@ public class TongHopThongKe extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1)
+                .addComponent(tabs)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cboKhoaHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboKhoaHocActionPerformed
+        // TODO add your handling code here:
+        fillTableBangDiem();
+    }//GEN-LAST:event_cboKhoaHocActionPerformed
+
+    private void cboNamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNamActionPerformed
+        // TODO add your handling code here:
+        fillTableDoanhThu();
+    }//GEN-LAST:event_cboNamActionPerformed
 
     /**
      * @param args the command line arguments
@@ -264,7 +392,7 @@ public class TongHopThongKe extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblDoanhThu;
     private javax.swing.JTable tblKhoaHoc;
     private javax.swing.JTable tblNguoiHoc;

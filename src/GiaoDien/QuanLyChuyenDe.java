@@ -5,6 +5,15 @@
  */
 package GiaoDien;
 
+import DAO.ChuyenDeDAO;
+import Model.ChuyenDe;
+import TienIchHelper.DialogHelper;
+import TienIchHelper.ShareHelper;
+import java.io.File;
+import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author pvsla
@@ -16,6 +25,200 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
      */
     public QuanLyChuyenDe() {
         initComponents();
+        setIconImage(ShareHelper.APP_ICON);
+        setLocationRelativeTo(null);
+        if (ShareHelper.USER != null) {
+            this.load();
+        } else {
+            DialogHelper.alert(this, "Vui lòng đăng nhập");
+            this.tabs.removeAll();
+        }
+    }
+
+    int index = 0;
+    ChuyenDeDAO dao = new ChuyenDeDAO();
+    boolean flag = false;
+
+    void check() {
+        if (txtMaCD.getText().length() > 5 || txtMaCD.getText().length() < 5) {
+            DialogHelper.alert(this, "Mã chuyên đề phải nhập đúng 5 ký tự");
+        } else if (txtTenCD.getText().length() == 0) {
+            DialogHelper.alert(this, "Tên chuyên đề không được bỏ trống!!!");
+        } else if (lblHinh.getIcon() == null) {
+            DialogHelper.alert(this, "Bạn chưa chọn hình!");
+        } else if (txtThoiLuong.getText().equals("") || !txtHocPhi.getText().equals("")) {
+            check1();
+        } else {
+            flag = true;
+        }
+    }
+
+    void check1() {
+        if (txtThoiLuong.getText().equals("")) {
+            DialogHelper.alert(this, "Không bỏ trống thời lượng!");
+        } else if (txtHocPhi.getText().equals("")) {
+            DialogHelper.alert(this, "Không bỏ trống học phí!");
+        } else if (!txtThoiLuong.getText().equals("") || !txtHocPhi.getText().equals("")) {
+            String hp = "java.lang.NumberFormatException: For input string: ";
+            String tl2 = "java.lang.NumberFormatException: For input string: ";
+            String tl = "";
+            try {
+                if (!txtThoiLuong.getText().equals("") || !txtHocPhi.getText().equals("")) {
+                    int thoiluong = Integer.parseInt(txtThoiLuong.getText());
+                    int hocphi = Integer.parseInt(txtHocPhi.getText());
+                    if (thoiluong <= 0) {
+                        DialogHelper.alert(this, "Thời lượng phải lớn hơn 0 !!!");
+                    } else if (hocphi <= 0) {
+                        DialogHelper.alert(this, "Học phí phải lớn hơn 0 !!!");
+                    } else {
+                        flag = true;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+                tl += e.toString();
+                hp += "\"" + (txtHocPhi.getText()).toString() + "\"";
+                tl2 += "\"" + (txtThoiLuong.getText()).toString() + "\"";
+                System.out.println(hp);
+                System.out.println(tl2);
+                if (tl.equals(hp)) {
+                    DialogHelper.alert(this, "Học phí phải truyền vào kiểu số!");
+                } else if (tl.equals(tl2)) {
+                    DialogHelper.alert(this, "Thời lượng phải truyền vào kiểu số!");
+                }
+            }
+        }
+    }
+
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
+        setLocationRelativeTo(null);
+    }
+
+    void load() {
+        DefaultTableModel model = (DefaultTableModel) tblGridView.getModel();
+        model.setRowCount(0);
+        try {
+            List<ChuyenDe> list = dao.select();
+            for (ChuyenDe cd : list) {
+                Object[] row = {
+                    cd.getMaCD(),
+                    cd.getTenCD(),
+                    cd.getHocPhi(),
+                    cd.getThoiLuong(),
+                    cd.getHinh()
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
+
+    void insert() {
+        ChuyenDe model = getModel();
+        try {
+            dao.insert(model);
+            this.load();
+            this.clear();
+            DialogHelper.alert(this, "Thêm mới thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Chuyên đề này đã có!");
+        }
+
+    }
+
+    void update() {
+        ChuyenDe model = getModel();
+        try {
+            dao.update(model);
+            this.load();
+            DialogHelper.alert(this, "Cập nhật thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Cập nhật thất bại!");
+        }
+
+    }
+
+    void delete() {
+        if (DialogHelper.confirm(this, "Bạn có muốn xóa hay không?")) {
+            String macd = txtMaCD.getText();
+            try {
+                dao.delete(macd);
+                this.load();
+                this.clear();
+                DialogHelper.alert(this, "Xóa thành công!");
+            } catch (Exception e) {
+                DialogHelper.alert(this, "Xóa thất bại! Chuyên đề đang áp dụng cho các khóa học");
+            }
+        }
+    }
+
+    void clear() {
+        this.setModel(new ChuyenDe());
+        this.setStatus(true);
+        lblHinh.setIcon(null);
+    }
+
+    void edit() {
+        try {
+            String macd = (String) tblGridView.getValueAt(this.index, 0);
+            ChuyenDe model = dao.findById(macd);
+            if (model != null) {
+                this.setModel(model);
+                this.setStatus(false);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+    }
+
+    void setModel(ChuyenDe model) {
+        txtMaCD.setText(model.getMaCD());
+        txtTenCD.setText(model.getTenCD());
+        txtThoiLuong.setText(String.valueOf(model.getThoiLuong()));
+        txtHocPhi.setText(String.valueOf(model.getHocPhi()));
+        txtMoTa.setText(model.getMoTa());
+        lblHinh.setToolTipText(model.getHinh());
+        if (model.getHinh() != null) {
+            lblHinh.setIcon(ShareHelper.readLogo(model.getHinh()));
+        }
+    }
+
+    ChuyenDe getModel() {
+        ChuyenDe model = new ChuyenDe();
+        model.setMaCD(txtMaCD.getText());
+        model.setTenCD(txtTenCD.getText());
+        model.setThoiLuong(Integer.valueOf(txtThoiLuong.getText()));
+        model.setHocPhi(Double.valueOf(txtHocPhi.getText()));
+        model.setHinh(lblHinh.getToolTipText());
+        model.setMoTa(txtMoTa.getText());
+        return model;
+    }
+
+    void setStatus(boolean insertable) {
+        txtMaCD.setEditable(insertable);
+        btnInsert.setEnabled(insertable);
+        btnUpdate.setEnabled(!insertable);
+        btnDelete.setEnabled(!insertable);
+
+        boolean first = this.index > 0;
+        boolean last = this.index < tblGridView.getRowCount() - 1;
+        btnFisrt.setEnabled(!insertable && first);
+        btnPrev.setEnabled(!insertable && first);
+        btnLast.setEnabled(!insertable && last);
+        btnNext.setEnabled(!insertable && last);
+    }
+
+    void selectImage() {
+        if (jFileChooser1.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            File file = jFileChooser1.getSelectedFile();
+            if (ShareHelper.saveLogo(file)) {
+                // Hiển thị hình lên form 
+                lblHinh.setIcon(ShareHelper.readLogo(file.getName()));
+                lblHinh.setToolTipText(file.getName());
+            }
+        }
     }
 
     /**
@@ -27,10 +230,9 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFileChooser1 = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabs = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -55,8 +257,9 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        tblGridView = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jFileChooser1 = new javax.swing.JFileChooser();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblGridView = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("QUẢN LÝ CHUYÊN ĐỀ");
@@ -68,7 +271,12 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
         jLabel2.setText("Hình logo");
 
         lblHinh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblHinh.setText("jLabel8");
+        lblHinh.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblHinh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblHinhMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -96,20 +304,60 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txtMoTa);
 
         btnInsert.setText("Thêm");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnClear.setText("Mới");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
 
         btnFisrt.setText("|<");
+        btnFisrt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFisrtActionPerformed(evt);
+            }
+        });
 
         btnPrev.setText("<<");
+        btnPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevActionPerformed(evt);
+            }
+        });
 
         btnNext.setText(">>");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         btnLast.setText(">|");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -196,9 +444,9 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("CẬP NHẬT", jPanel2);
+        tabs.addTab("CẬP NHẬT", jPanel2);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblGridView.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -209,7 +457,12 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
                 "Mã CD", "Tên CD", "Học Phí", "Thời Lượng", "Hình"
             }
         ));
-        tblGridView.setViewportView(jTable1);
+        tblGridView.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblGridViewMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblGridView);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -217,18 +470,28 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tblGridView, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tblGridView, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 426, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        jTabbedPane1.addTab("DANH SÁCH", jPanel3);
+        tabs.addTab("DANH SÁCH", jPanel3);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -238,7 +501,7 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTabbedPane1)
+                        .addComponent(tabs)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -250,7 +513,7 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -269,6 +532,73 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tblGridViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGridViewMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 1) {
+            this.index = tblGridView.rowAtPoint(evt.getPoint());
+            if (this.index >= 0) {
+                this.edit();
+                tabs.setSelectedIndex(0);
+            }
+        }
+    }//GEN-LAST:event_tblGridViewMouseClicked
+
+    private void lblHinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHinhMouseClicked
+        // TODO add your handling code here:
+        this.selectImage();
+    }//GEN-LAST:event_lblHinhMouseClicked
+
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        // TODO add your handling code here:
+        check();
+        if (flag == true) {
+            insert();
+        }
+    }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        update();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        if (ShareHelper.USER.getVaiTro() == true) {
+            delete();
+        } else {
+            DialogHelper.alert(this, "Bạn không có quyền xóa !!!");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnFisrtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFisrtActionPerformed
+        // TODO add your handling code here:
+        this.index = 0;
+        this.edit();
+    }//GEN-LAST:event_btnFisrtActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        // TODO add your handling code here:
+        this.index--;
+        this.edit();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        // TODO add your handling code here:
+        this.index++;
+        this.edit();
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        // TODO add your handling code here:
+        this.index = tblGridView.getRowCount() - 1;
+        this.edit();
+    }//GEN-LAST:event_btnLastActionPerformed
 
     /**
      * @param args the command line arguments
@@ -327,10 +657,10 @@ public class QuanLyChuyenDe extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblHinh;
-    private javax.swing.JScrollPane tblGridView;
+    private javax.swing.JTabbedPane tabs;
+    private javax.swing.JTable tblGridView;
     private javax.swing.JTextField txtHocPhi;
     private javax.swing.JTextField txtMaCD;
     private javax.swing.JTextArea txtMoTa;

@@ -479,7 +479,11 @@ public class QuanLyNhanVien extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        delete();
+        if (ShareHelper.USER.getVaiTro() == true) {
+            delete();
+        } else {
+            DialogHelper.alert(this, "Bạn không có quyền xóa !!!");
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed

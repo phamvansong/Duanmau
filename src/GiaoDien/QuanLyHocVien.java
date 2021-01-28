@@ -5,6 +5,19 @@
  */
 package GiaoDien;
 
+import DAO.HocVienDAO;
+import DAO.NguoiHocDAO;
+import Model.HocVien;
+import Model.NguoiHoc;
+import TienIchHelper.DialogHelper;
+import TienIchHelper.JdbcHelper;
+import TienIchHelper.ShareHelper;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author pvsla
@@ -16,8 +29,129 @@ public class QuanLyHocVien extends javax.swing.JFrame {
      */
     public QuanLyHocVien() {
         initComponents();
+        init();
+        fillComboBox();
+        fillGridView();
     }
-    
+    Integer MaKH;
+    HocVienDAO dao = new HocVienDAO();
+    NguoiHocDAO nhdao = new NguoiHocDAO();
+
+    QuanLyHocVien(Integer id) {
+        initComponents();
+        init();
+        MaKH = id;
+        fillComboBox();
+        fillGridView();
+    }
+
+    void init() {
+        setIconImage(ShareHelper.APP_ICON);
+        setLocationRelativeTo(null);
+    }
+
+    void fillComboBox() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboNguoiHoc.getModel();
+        model.removeAllElements();
+        try {
+            List<NguoiHoc> list = nhdao.selectByCourse(MaKH);
+            for (NguoiHoc nh : list) {
+                model.addElement(nh);
+            }
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi truy vấn học viên!");
+        }
+    }
+
+    void fillGridView() {
+        DefaultTableModel model = (DefaultTableModel) tblGridView.getModel();
+        model.setRowCount(0);
+        try {
+            String sql = "SELECT hv.*, nh.HoTen FROM HocVien hv "
+                    + " JOIN NguoiHoc nh ON nh.MaNH=hv.MaNH WHERE MaKH=?";
+            ResultSet rs = JdbcHelper.executeQuery(sql, MaKH);
+            while (rs.next()) {
+                double diem = rs.getDouble("Diem");
+                Object[] row = {
+                    rs.getInt("MaHV"), rs.getString("MaNH"),
+                    rs.getString("HoTen"), diem, false
+                };
+                if (rdoTatCa.isSelected()) {
+                    model.addRow(row);
+                } else if (rdoDaNhap.isSelected() && diem >= 0) {
+                    model.addRow(row);
+                } else if (rdoChuaNhap.isSelected() && diem < 0) {
+                    model.addRow(row);
+                }
+            }
+        } catch (SQLException e) {
+            DialogHelper.alert(this, "Lỗi truy vấn học viên!");
+        }
+    }
+    boolean flag = false;
+
+    void check() {
+        if (txtDiem.getText().length() > 2) {
+            DialogHelper.alert(this, "Điểm chỉ nhập từ 0 đến 10");
+        } else {
+            if (txtDiem.getText().length() == 0) {
+                DialogHelper.alert(this, "Hãy nhập vào điểm");
+            } else {
+                int diem = Integer.parseInt(txtDiem.getText());
+                if (diem < 0 || diem > 10) {
+                    DialogHelper.alert(this, "Điểm chỉ nhập từ 0 đến 10");
+                } else {
+                    flag = true;
+                }
+            }
+        }
+    }
+
+    void insert() {
+        NguoiHoc nguoiHoc = (NguoiHoc) cboNguoiHoc.getSelectedItem();
+
+        HocVien model = new HocVien();
+        model.setMaKH(MaKH);
+        model.setMaNH(nguoiHoc.getMaNH());
+        model.setDiem(Double.valueOf(txtDiem.getText()));
+
+        try {
+            dao.insert(model);
+            fillComboBox();
+            fillGridView();
+            DialogHelper.alert(this, "Thêm thành công!");
+        } catch (Exception e) {
+            DialogHelper.alert(this, "Lỗi thêm học viên vào khóa học!");
+        }
+    }
+
+    void update() {
+
+        for (int i = 0; i < tblGridView.getRowCount(); i++) {
+            Integer mahv = (Integer) tblGridView.getValueAt(i, 0);
+            String manh = (String) tblGridView.getValueAt(i, 1);
+            Double diem = (Double) tblGridView.getValueAt(i, 3);
+            Boolean isDelete = (Boolean) tblGridView.getValueAt(i, 4);
+            if (diem < 0 || diem > 10) {
+                DialogHelper.alert(this, "Điểm truyền vào không hợp lệ không");
+            }
+            if (isDelete) {
+                dao.delete(mahv);
+            } else {
+                HocVien model = new HocVien();
+                model.setMaHV(mahv);
+                model.setMaKH(MaKH);
+                model.setMaNH(manh);
+                model.setDiem(diem);
+
+                dao.update(model);
+            }
+        }
+        this.fillComboBox();
+        this.fillGridView();
+        DialogHelper.alert(this, "Cập nhật thành công!");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,7 +169,7 @@ public class QuanLyHocVien extends javax.swing.JFrame {
         txtDiem = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblGridView = new javax.swing.JTable();
         rdoTatCa = new javax.swing.JRadioButton();
         rdoDaNhap = new javax.swing.JRadioButton();
         rdoChuaNhap = new javax.swing.JRadioButton();
@@ -81,7 +215,7 @@ public class QuanLyHocVien extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("HỌC VIÊN TRONG CỦA KHÓA"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblGridView.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -100,8 +234,9 @@ public class QuanLyHocVien extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblGridView);
 
+        buttonGroup1.add(rdoTatCa);
         rdoTatCa.setText("Tất cả");
         rdoTatCa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,6 +244,7 @@ public class QuanLyHocVien extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(rdoDaNhap);
         rdoDaNhap.setText("Đã nhập điểm");
         rdoDaNhap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -116,7 +252,13 @@ public class QuanLyHocVien extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup1.add(rdoChuaNhap);
         rdoChuaNhap.setText("Chưa nhập điểm");
+        rdoChuaNhap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoChuaNhapActionPerformed(evt);
+            }
+        });
 
         btnCapNhat.setText("Cập nhật");
         btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
@@ -195,19 +337,38 @@ public class QuanLyHocVien extends javax.swing.JFrame {
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         // TODO add your handling code here:
+        if (txtDiem.getText().equals("")) {
+            update();
+        } else {
+            check();
+            if (flag == true) {
+                update();
+            }
+        }
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
+        check();
+        if (flag == true) {
+            insert();
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void rdoTatCaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoTatCaActionPerformed
         // TODO add your handling code here:
+        this.fillGridView();
     }//GEN-LAST:event_rdoTatCaActionPerformed
 
     private void rdoDaNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoDaNhapActionPerformed
         // TODO add your handling code here:
+        this.fillGridView();
     }//GEN-LAST:event_rdoDaNhapActionPerformed
+
+    private void rdoChuaNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoChuaNhapActionPerformed
+        // TODO add your handling code here:
+        this.fillGridView();
+    }//GEN-LAST:event_rdoChuaNhapActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,10 +414,10 @@ public class QuanLyHocVien extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JRadioButton rdoChuaNhap;
     private javax.swing.JRadioButton rdoDaNhap;
     private javax.swing.JRadioButton rdoTatCa;
+    private javax.swing.JTable tblGridView;
     private javax.swing.JTextField txtDiem;
     // End of variables declaration//GEN-END:variables
 }

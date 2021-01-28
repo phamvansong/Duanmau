@@ -119,11 +119,11 @@ public class QuanLyNguoiHoc extends javax.swing.JFrame {
     boolean flag = false;
 
     void check() {
-        if ((txtMaNH.getText()).length() < 7) {
+        if ((txtMaNH.getText()).length() != 7) {
             if ((txtMaNH.getText()).equals("")) {
                 DialogHelper.alert(this, "Mã người học không được để trống !!!");
             } else {
-                DialogHelper.alert(this, "Mã người học không hợp lệ. Tối thiểu 7 ký tự !!!");
+                DialogHelper.alert(this, "Mã người học phải 7 ký tự");
             }
         } else if ((txtHoTen.getText()).equals("")) {
             DialogHelper.alert(this, "Họ tên không được để trống !!!");
@@ -584,9 +584,9 @@ public class QuanLyNguoiHoc extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        if(ShareHelper.USER.getVaiTro()== true){
+        if (ShareHelper.USER.getVaiTro() == true) {
             delete();
-        }else{
+        } else {
             DialogHelper.alert(this, "Bạn không có quyền xóa !!!");
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -610,7 +610,6 @@ public class QuanLyNguoiHoc extends javax.swing.JFrame {
     private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
         // TODO add your handling code here:
         this.index--;
-
         if (this.index < 0) {
             DialogHelper.alert(this, "Đã ở đầu trang!");
             this.index = 0;
@@ -618,7 +617,6 @@ public class QuanLyNguoiHoc extends javax.swing.JFrame {
             txtMaNH.setEditable(false);
             return;
         }
-
         this.edit();
         txtMaNH.setEditable(false);
     }//GEN-LAST:event_btnPrevActionPerformed
@@ -642,7 +640,6 @@ public class QuanLyNguoiHoc extends javax.swing.JFrame {
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
         // TODO add your handling code here:
         this.index = tblGridView.getRowCount() - 1;
-
         this.edit();
         txtMaNH.setEditable(false);
     }//GEN-LAST:event_btnLastActionPerformed
@@ -650,7 +647,6 @@ public class QuanLyNguoiHoc extends javax.swing.JFrame {
     private void tblGridViewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGridViewMouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount() == 1) {
-
             this.index = tblGridView.rowAtPoint(evt.getPoint());
             if (this.index >= 0) {
                 this.edit();

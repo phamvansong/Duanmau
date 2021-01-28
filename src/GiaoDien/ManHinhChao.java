@@ -5,19 +5,9 @@
  */
 package GiaoDien;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.LayoutStyle;
-import javax.swing.SwingConstants;
 import javax.swing.Timer;
-import javax.swing.WindowConstants;
 
 /**
  *
