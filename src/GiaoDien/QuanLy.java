@@ -29,22 +29,22 @@ public class QuanLy extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         init();
     }
-    
+
     void init() {
         setIconImage(ShareHelper.APP_ICON);
         new Timer(1000, new ActionListener() {
             SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss a");
-            
+
             public void actionPerformed(ActionEvent e) {
                 lbldongho.setText(format.format(new Date()));
             }
         }).start();
     }
-    
+
     void openLogin() {
         new DangNhap().setVisible(true);
     }
-    
+
     void doiMatKhau() {
         if (ShareHelper.authenticated()) {
             new DoiMatKhau().setVisible(true);
@@ -52,11 +52,11 @@ public class QuanLy extends javax.swing.JFrame {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
-    
+
     void openWelcome() {
         new ManHinhChao().setVisible(true);
     }
-    
+
     void logoff() {
         if (ShareHelper.authenticated()) {
             ShareHelper.logoff();
@@ -65,13 +65,13 @@ public class QuanLy extends javax.swing.JFrame {
             DialogHelper.alert(this, "Bạn chưa đăng nhập!");
         }
     }
-    
+
     void exit() {
         if (DialogHelper.confirm(this, "Bạn thực sự muốn kết thúc?")) {
             System.exit(0);
         }
     }
-    
+
     void openNhanVien() {
         if (ShareHelper.authenticated()) {
             new QuanLyNhanVien().setVisible(true);
@@ -79,7 +79,7 @@ public class QuanLy extends javax.swing.JFrame {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
-    
+
     void openKhoaHoc() {
         if (ShareHelper.authenticated()) {
             new QuanLyKhoaHoc().setVisible(true);
@@ -87,7 +87,7 @@ public class QuanLy extends javax.swing.JFrame {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
-    
+
     void openChuyenDe() {
         if (ShareHelper.authenticated()) {
             new QuanLyChuyenDe().setVisible(true);
@@ -95,7 +95,7 @@ public class QuanLy extends javax.swing.JFrame {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
-    
+
     void openNguoiHoc() {
         if (ShareHelper.authenticated()) {
             new QuanLyNguoiHoc().setVisible(true);
@@ -103,19 +103,19 @@ public class QuanLy extends javax.swing.JFrame {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
-    
+
     void openTongHopThongKe(int index) {
-        if (ShareHelper.authenticated()) {          
+        if (ShareHelper.authenticated()) {
             new TongHopThongKe(index).setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
-    
+
     void openAbout() {
         new GioiThieu().setVisible(true);
     }
-    
+
     void openWebsizes() {
         try {
             Desktop.getDesktop().browse(new File("src/Websize/huongdan.html").toURI());

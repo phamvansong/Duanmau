@@ -142,7 +142,9 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
 
     void setModel(KhoaHoc model) {
         cboChuyenDe.setToolTipText(String.valueOf(model.getMaKH()));
-        cboChuyenDe.setSelectedItem(cddao.findById(model.getMaCD()));
+        cboChuyenDe.getModel().setSelectedItem(cddao.findById(model.getMaCD()));//combobox nó tạo từ defaultmodel chứ k phải từ cái combobox thuần gốc nên tất cả dữ liệu
+        //đều phải thông qua .getModel() làm trung gian chứ gọi thằng combobox gốc nó k hiểu
+
         txtNgayKG.setText(DateHelper.toString(model.getNgayKG()));
         txtHocPhi.setText(String.valueOf(model.getHocPhi()));
         txtThoiLuong.setText(String.valueOf(model.getThoiLuong()));
@@ -152,7 +154,7 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
 
     KhoaHoc getModel() {
         KhoaHoc model = new KhoaHoc();
-        ChuyenDe chuyenDe = (ChuyenDe) cboChuyenDe.getSelectedItem();
+        ChuyenDe chuyenDe = (ChuyenDe) cboChuyenDe.getModel().getSelectedItem();
         model.setMaCD(chuyenDe.getMaCD());
         model.setNgayKG(DateHelper.toDate(txtNgayKG.getText()));
         model.setHocPhi(Double.valueOf(txtHocPhi.getText()));
@@ -180,7 +182,8 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
     }
 
     void selectComboBox() {
-        ChuyenDe chuyenDe = (ChuyenDe) cboChuyenDe.getSelectedItem();
+        //nhớ cái .getModel()
+        ChuyenDe chuyenDe = (ChuyenDe) cboChuyenDe.getModel().getSelectedItem();
         txtThoiLuong.setText(String.valueOf(chuyenDe.getThoiLuong()));
         txtHocPhi.setText(String.valueOf(chuyenDe.getHocPhi()));
     }
@@ -212,6 +215,7 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tabs = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -266,7 +270,6 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
 
         jLabel5.setText("Người tạo");
 
-        cboChuyenDe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cboChuyenDe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboChuyenDeActionPerformed(evt);
@@ -368,7 +371,7 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
                         .addComponent(btnClear)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnStudents)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                         .addComponent(btnFisrt)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPrev)
@@ -438,7 +441,7 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
                     .addComponent(btnPrev)
                     .addComponent(btnNext)
                     .addComponent(btnLast))
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         tabs.addTab("CẬP NHẬT", jPanel1);
@@ -473,40 +476,51 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         tabs.addTab("DANH SÁCH", jPanel2);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tabs)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(tabs))
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tabs)
                 .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -690,7 +704,7 @@ boolean flag = false;
 
     private void cboChuyenDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboChuyenDeActionPerformed
         // TODO add your handling code here:
-      //  selectComboBox();
+        selectComboBox();
     }//GEN-LAST:event_cboChuyenDeActionPerformed
 
     /**
@@ -721,10 +735,8 @@ boolean flag = false;
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new QuanLyKhoaHoc().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new QuanLyKhoaHoc().setVisible(true);
         });
     }
 
@@ -738,7 +750,7 @@ boolean flag = false;
     private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnStudents;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cboChuyenDe;
+    private javax.swing.JComboBox<ChuyenDe> cboChuyenDe;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -749,6 +761,7 @@ boolean flag = false;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane tabs;
