@@ -290,7 +290,7 @@ public class QuanLyNguoiHoc extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("QUẢN LÝ NGƯỜI HỌC");
+        setTitle("EduSys - Quản lý người học");
 
         jLabel2.setText("Mã người học");
 

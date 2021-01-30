@@ -3,7 +3,7 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="QU&#x1ea2;N L&#xdd; KH&#xd3;A H&#x1ecc;C"/>
+    <Property name="title" type="java.lang.String" value="EduSys - Qu&#x1ea3;n l&#xfd; kh&#xf3;a h&#x1ecd;c"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>

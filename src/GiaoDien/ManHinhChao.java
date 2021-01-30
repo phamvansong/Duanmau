@@ -26,7 +26,7 @@ public class ManHinhChao extends javax.swing.JFrame {
     String check = "";
 
     void Loading() {
-        new Timer(10, new ActionListener() {
+        new Timer(20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int value = jProgressBar1.getValue();

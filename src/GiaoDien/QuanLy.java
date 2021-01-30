@@ -29,26 +29,34 @@ public class QuanLy extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         init();
     }
-
+    
     void init() {
         setIconImage(ShareHelper.APP_ICON);
         new Timer(1000, new ActionListener() {
             SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss a");
-
+            
             public void actionPerformed(ActionEvent e) {
                 lbldongho.setText(format.format(new Date()));
             }
         }).start();
     }
-
+    
     void openLogin() {
         new DangNhap().setVisible(true);
     }
-
+    
+    void doiMatKhau() {
+        if (ShareHelper.authenticated()) {
+            new DoiMatKhau().setVisible(true);
+        } else {
+            DialogHelper.alert(this, "Vui lòng đăng nhập!");
+        }
+    }
+    
     void openWelcome() {
         new ManHinhChao().setVisible(true);
     }
-
+    
     void logoff() {
         if (ShareHelper.authenticated()) {
             ShareHelper.logoff();
@@ -57,13 +65,13 @@ public class QuanLy extends javax.swing.JFrame {
             DialogHelper.alert(this, "Bạn chưa đăng nhập!");
         }
     }
-
+    
     void exit() {
         if (DialogHelper.confirm(this, "Bạn thực sự muốn kết thúc?")) {
             System.exit(0);
         }
     }
-
+    
     void openNhanVien() {
         if (ShareHelper.authenticated()) {
             new QuanLyNhanVien().setVisible(true);
@@ -71,7 +79,7 @@ public class QuanLy extends javax.swing.JFrame {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
-
+    
     void openKhoaHoc() {
         if (ShareHelper.authenticated()) {
             new QuanLyKhoaHoc().setVisible(true);
@@ -79,7 +87,7 @@ public class QuanLy extends javax.swing.JFrame {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
-
+    
     void openChuyenDe() {
         if (ShareHelper.authenticated()) {
             new QuanLyChuyenDe().setVisible(true);
@@ -87,7 +95,7 @@ public class QuanLy extends javax.swing.JFrame {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
-
+    
     void openNguoiHoc() {
         if (ShareHelper.authenticated()) {
             new QuanLyNguoiHoc().setVisible(true);
@@ -95,24 +103,25 @@ public class QuanLy extends javax.swing.JFrame {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
-
-    void openTongHopThongKe() {
-        if (ShareHelper.authenticated()) {
-            new TongHopThongKe().setVisible(true);
+    
+    void openTongHopThongKe(int index) {
+        if (ShareHelper.authenticated()) {          
+            new TongHopThongKe(index).setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
-
+    
     void openAbout() {
         new GioiThieu().setVisible(true);
     }
-
+    
     void openWebsizes() {
         try {
-            Desktop.getDesktop().browse(new File("Đường dẫn...").toURI());
+            Desktop.getDesktop().browse(new File("src/Websize/huongdan.html").toURI());
         } catch (Exception e) {
             DialogHelper.alert(this, "Không tìm thấy file hướng dẫn!");
+            System.out.println(e);
         }
     }
 
@@ -158,7 +167,7 @@ public class QuanLy extends javax.swing.JFrame {
         mniGioiThieu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("HỆ THỐNG QUẢN LÝ ĐÀO TẠO");
+        setTitle("EduSys - Hệ thống quản lý đào tạo");
 
         jToolBar1.setRollover(true);
 
@@ -324,6 +333,7 @@ public class QuanLy extends javax.swing.JFrame {
 
         mnuQuanLy.setText("Quản lý");
 
+        mniQLNguoiHoc.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.CTRL_MASK));
         mniQLNguoiHoc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/Conference.png"))); // NOI18N
         mniQLNguoiHoc.setText("Người học");
         mniQLNguoiHoc.addActionListener(new java.awt.event.ActionListener() {
@@ -333,6 +343,7 @@ public class QuanLy extends javax.swing.JFrame {
         });
         mnuQuanLy.add(mniQLNguoiHoc);
 
+        mniQLChuyenDe.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.CTRL_MASK));
         mniQLChuyenDe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/Lists.png"))); // NOI18N
         mniQLChuyenDe.setText("Chuyên đề");
         mniQLChuyenDe.addActionListener(new java.awt.event.ActionListener() {
@@ -342,6 +353,7 @@ public class QuanLy extends javax.swing.JFrame {
         });
         mnuQuanLy.add(mniQLChuyenDe);
 
+        mniQLKhoaHoc.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.CTRL_MASK));
         mniQLKhoaHoc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/Certificate.png"))); // NOI18N
         mniQLKhoaHoc.setText("Khóa học");
         mniQLKhoaHoc.addActionListener(new java.awt.event.ActionListener() {
@@ -351,6 +363,7 @@ public class QuanLy extends javax.swing.JFrame {
         });
         mnuQuanLy.add(mniQLKhoaHoc);
 
+        mniQLNhanVien.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.CTRL_MASK));
         mniQLNhanVien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/User group.png"))); // NOI18N
         mniQLNhanVien.setText("Nhân viên");
         mniQLNhanVien.addActionListener(new java.awt.event.ActionListener() {
@@ -364,6 +377,7 @@ public class QuanLy extends javax.swing.JFrame {
 
         mnuThongKe.setText("Thống kê");
 
+        mniTKNguoiHoc.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, java.awt.event.InputEvent.SHIFT_MASK));
         mniTKNguoiHoc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/Clien list.png"))); // NOI18N
         mniTKNguoiHoc.setText("Người học từng năm");
         mniTKNguoiHoc.addActionListener(new java.awt.event.ActionListener() {
@@ -373,6 +387,7 @@ public class QuanLy extends javax.swing.JFrame {
         });
         mnuThongKe.add(mniTKNguoiHoc);
 
+        mniTKBangDem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.SHIFT_MASK));
         mniTKBangDem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/Card file.png"))); // NOI18N
         mniTKBangDem.setText("Bảng điểm khóa học");
         mniTKBangDem.addActionListener(new java.awt.event.ActionListener() {
@@ -382,6 +397,7 @@ public class QuanLy extends javax.swing.JFrame {
         });
         mnuThongKe.add(mniTKBangDem);
 
+        mniTKKhoaHoc.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, java.awt.event.InputEvent.SHIFT_MASK));
         mniTKKhoaHoc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/Bar chart.png"))); // NOI18N
         mniTKKhoaHoc.setText("Điểm từng khóa học");
         mniTKKhoaHoc.addActionListener(new java.awt.event.ActionListener() {
@@ -391,6 +407,7 @@ public class QuanLy extends javax.swing.JFrame {
         });
         mnuThongKe.add(mniTKKhoaHoc);
 
+        mniTKDoanhThu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.SHIFT_MASK));
         mniTKDoanhThu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/Dollar.png"))); // NOI18N
         mniTKDoanhThu.setText("Doanh thu từng chuyên đề");
         mniTKDoanhThu.addActionListener(new java.awt.event.ActionListener() {
@@ -463,6 +480,7 @@ public class QuanLy extends javax.swing.JFrame {
 
     private void mniDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDoiMatKhauActionPerformed
         // TODO add your handling code here:
+        doiMatKhau();
     }//GEN-LAST:event_mniDoiMatKhauActionPerformed
 
     private void mniKetThucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniKetThucActionPerformed
@@ -492,22 +510,26 @@ public class QuanLy extends javax.swing.JFrame {
 
     private void mniTKNguoiHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniTKNguoiHocActionPerformed
         // TODO add your handling code here:
-        openTongHopThongKe();
+        openTongHopThongKe(0);
     }//GEN-LAST:event_mniTKNguoiHocActionPerformed
 
     private void mniTKBangDemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniTKBangDemActionPerformed
         // TODO add your handling code here:
-        openTongHopThongKe();
+        openTongHopThongKe(1);
     }//GEN-LAST:event_mniTKBangDemActionPerformed
 
     private void mniTKKhoaHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniTKKhoaHocActionPerformed
         // TODO add your handling code here:
-        openTongHopThongKe();
+        openTongHopThongKe(2);
     }//GEN-LAST:event_mniTKKhoaHocActionPerformed
 
     private void mniTKDoanhThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniTKDoanhThuActionPerformed
         // TODO add your handling code here:
-        openTongHopThongKe();
+        if (ShareHelper.USER.getVaiTro() == true) {
+            openTongHopThongKe(3);
+        } else {
+            DialogHelper.alert(this, "Bạn không có quyền xem doanh thu!");
+        }
     }//GEN-LAST:event_mniTKDoanhThuActionPerformed
 
     private void mniGioiThieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniGioiThieuActionPerformed

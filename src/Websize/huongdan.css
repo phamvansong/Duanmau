@@ -1,0 +1,133 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Tahoma;
+}
+.container {
+    width: 1200px;
+    margin: 0 110px;
+}
+.container a:hover{
+    color: red;
+}
+.container a h5:hover{
+    color: blue;
+}
+.header{
+    background-color: #f95512;
+    margin: 0 110px;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.header .logo{
+    padding: 18px 0 20px 24px;
+}
+.menu{
+    background-color: #272f54;
+    margin: 0 110px 0px 110px;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.menu-left ul li{
+    display: block;
+    text-align: center;
+    line-height: 35px;
+    margin-left: 24px;
+}
+.menu-left ul li a{
+    text-decoration: none;
+    font-size: 12px;
+    color:#fefbfb;
+    padding-right: 30px;
+}
+.menu .search{
+    text-align: right;
+    line-height: 35px;
+    margin-right: 4px;
+}
+.menu .search input{
+    font-size: 15px;
+    line-height: 22px;
+    border: none;
+}
+.menu .search input:first-of-type{
+    width: 300px;
+    border: 1px solid #cccccc;
+    margin-right: 13px;
+    padding-left: 20px;
+}
+.menu .search input:last-of-type{
+    width: 95px;
+    background-color: #272f54;
+    color: #ffffff;
+    border: 1px solid #f95512;
+}
+.banner{
+    margin: 9px 110px 22px 110px;
+}
+.content{
+    margin: 0 110px;
+    grid-template-rows: auto auto auto;
+    grid-gap: 24px;
+    display: grid; 
+}
+.text{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 24px;
+}
+.text1{
+    display: grid;
+}
+.text1 a{
+    margin-top: 10px;
+    text-decoration: none;
+    color: black;
+}
+.support {
+    background-color: rgb(8, 8, 88);
+    display: grid;
+    grid-template-columns: 1fr 650px;
+    grid-gap: 24px;
+}
+.support1{
+    margin: 30px;
+    padding-left: 60px;
+}
+.lh{
+    color:white;
+    margin: 15px;
+}
+.lh1{
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 24px;
+}
+.lh2{
+    font-size: 14px;
+    color: white;
+    margin: 15px;
+}
+.lh span{
+    font-size: 14px;
+}
+
+.lh2 p{
+    margin: 10px 0 10px 0;
+}
+.lh2 h4{
+    font-size: 18px;
+    color: rgb(255, 103, 47);
+}
+
+.footer{
+    background-color: #f95512;
+    text-align: center;
+    margin: 0 110px;
+    line-height: 50px;
+    margin-top: 12px;
+}
+.footer span{
+    color: #ffffff;
+    font-size: 12px;
+}

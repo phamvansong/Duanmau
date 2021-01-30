@@ -197,7 +197,7 @@ public class QuanLyNhanVien extends javax.swing.JFrame {
         btnNext.setEnabled(!insertable && last);
         btnLast.setEnabled(!insertable && last);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -235,7 +235,7 @@ public class QuanLyNhanVien extends javax.swing.JFrame {
         tblGridView = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("QUẢN LÝ NHÂN VIÊN");
+        setTitle("EduSys - Quản lý nhân viên");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 51, 204));

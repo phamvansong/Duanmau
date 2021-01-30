@@ -35,17 +35,17 @@ public class TongHopThongKe extends javax.swing.JFrame {
     ThongKeDAO dao = new ThongKeDAO();
     KhoaHocDAO khdao = new KhoaHocDAO();
 
-//    TongHopThongKe(int index) {
-//        initComponents();
-//        init();
-//        fillComboBoxKhoaHoc();
-//        fillTableBangDiem();
-//        fillTableNguoiHoc();
-//        fillTableKhoaHoc();
-//        fillComboBoxNam();
-//        fillTableDoanhThu();
-//        tabs.setSelectedIndex(index);
-//    }
+    TongHopThongKe(int index) {
+        initComponents();
+        init();
+        fillComboBoxKhoaHoc();
+        fillTableBangDiem();
+        fillTableNguoiHoc();
+        fillTableTongHop();
+        fillComboBoxNam();
+        fillTableDoanhThu();
+        tabs.setSelectedIndex(index);
+    }
 
     void init() {
         setIconImage(ShareHelper.APP_ICON);
@@ -77,8 +77,18 @@ public class TongHopThongKe extends javax.swing.JFrame {
         cboNam.setSelectedIndex(0);
     }
 
+    void fillTableNguoiHoc() {
+        DefaultTableModel model = (DefaultTableModel) tblNguoiHoc.getModel();
+        model.setRowCount(0);
+
+        List<Object[]> list = dao.getNguoiHoc();
+        for (Object[] row : list) {
+            model.addRow(row);
+        }
+    }
+
     void fillTableBangDiem() {
-        DefaultTableModel model = (DefaultTableModel) tblKhoaHoc.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblBangDiem.getModel();
         model.setRowCount(0);
 
         KhoaHoc kh = (KhoaHoc) cboKhoaHoc.getSelectedItem();
@@ -88,16 +98,6 @@ public class TongHopThongKe extends javax.swing.JFrame {
             for (Object[] row : list) {
                 model.addRow(row);
             }
-        }
-    }
-
-    void fillTableNguoiHoc() {
-        DefaultTableModel model = (DefaultTableModel) tblNguoiHoc.getModel();
-        model.setRowCount(0);
-
-        List<Object[]> list = dao.getNguoiHoc();
-        for (Object[] row : list) {
-            model.addRow(row);
         }
     }
 
@@ -142,7 +142,7 @@ public class TongHopThongKe extends javax.swing.JFrame {
         tblNguoiHoc = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblKhoaHoc = new javax.swing.JTable();
+        tblBangDiem = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         cboKhoaHoc = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
@@ -155,6 +155,7 @@ public class TongHopThongKe extends javax.swing.JFrame {
         tblDoanhThu = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("EduSys - Tổng hợp thống kê");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 51, 204));
@@ -186,7 +187,7 @@ public class TongHopThongKe extends javax.swing.JFrame {
 
         tabs.addTab("NGƯỜI HỌC", jPanel1);
 
-        tblKhoaHoc.setModel(new javax.swing.table.DefaultTableModel(
+        tblBangDiem.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -197,7 +198,7 @@ public class TongHopThongKe extends javax.swing.JFrame {
                 "MÃ NH", "HỌ VÀ TÊN", "ĐIỂM", "XẾP LOẠI"
             }
         ));
-        jScrollPane1.setViewportView(tblKhoaHoc);
+        jScrollPane1.setViewportView(tblBangDiem);
 
         jLabel2.setText("KHÓA HỌC:");
 
@@ -393,8 +394,8 @@ public class TongHopThongKe extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane tabs;
+    private javax.swing.JTable tblBangDiem;
     private javax.swing.JTable tblDoanhThu;
-    private javax.swing.JTable tblKhoaHoc;
     private javax.swing.JTable tblNguoiHoc;
     private javax.swing.JTable tblTongHop;
     // End of variables declaration//GEN-END:variables

@@ -244,7 +244,7 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
         tblGridView = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("QUẢN LÝ KHÓA HỌC");
+        setTitle("EduSys - Quản lý khóa học");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 204));

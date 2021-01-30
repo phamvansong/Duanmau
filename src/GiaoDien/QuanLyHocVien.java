@@ -176,7 +176,7 @@ public class QuanLyHocVien extends javax.swing.JFrame {
         btnCapNhat = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("QUẢN LÝ HỌC VIÊN CỦA KHÓA HỌC");
+        setTitle("EduSys - Quản lý học viên của khóa học");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("HỌC VIÊN KHÁC"));
 
