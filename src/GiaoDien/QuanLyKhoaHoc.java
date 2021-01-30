@@ -142,9 +142,7 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
 
     void setModel(KhoaHoc model) {
         cboChuyenDe.setToolTipText(String.valueOf(model.getMaKH()));
-        cboChuyenDe.getModel().setSelectedItem(cddao.findById(model.getMaCD()));//combobox nó tạo từ defaultmodel chứ k phải từ cái combobox thuần gốc nên tất cả dữ liệu
-        //đều phải thông qua .getModel() làm trung gian chứ gọi thằng combobox gốc nó k hiểu
-
+        cboChuyenDe.getModel().setSelectedItem(cddao.findById(model.getMaCD()));
         txtNgayKG.setText(DateHelper.toString(model.getNgayKG()));
         txtHocPhi.setText(String.valueOf(model.getHocPhi()));
         txtThoiLuong.setText(String.valueOf(model.getThoiLuong()));
@@ -182,7 +180,6 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
     }
 
     void selectComboBox() {
-        //nhớ cái .getModel()
         ChuyenDe chuyenDe = (ChuyenDe) cboChuyenDe.getModel().getSelectedItem();
         txtThoiLuong.setText(String.valueOf(chuyenDe.getThoiLuong()));
         txtHocPhi.setText(String.valueOf(chuyenDe.getHocPhi()));
