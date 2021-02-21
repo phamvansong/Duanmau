@@ -41,7 +41,7 @@ public class DoiMatKhau extends javax.swing.JFrame {
             ShareHelper.USER.setMatKhau(matKhauMoi);
             dao.update(ShareHelper.USER);
             DialogHelper.alert(this, "Đổi mật khẩu thành công!");
-        }
+        } 
     }
 
     void huyBo() {
