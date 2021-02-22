@@ -42,19 +42,19 @@ public class QuanLy extends javax.swing.JFrame {
     }
 
     void openLogin() {
-        new DangNhap().setVisible(true);
+        new DangNhapJDialog().setVisible(true);
     }
 
     void doiMatKhau() {
         if (ShareHelper.authenticated()) {
-            new DoiMatKhau().setVisible(true);
+            new DoiMatKhauJFrame().setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
 
     void openWelcome() {
-        new ManHinhChao().setVisible(true);
+        new ChaoJDialog().setVisible(true);
     }
 
     void logoff() {
@@ -74,7 +74,7 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openNhanVien() {
         if (ShareHelper.authenticated()) {
-            new QuanLyNhanVien().setVisible(true);
+            new NhanVienJFrame().setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
@@ -82,7 +82,7 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openKhoaHoc() {
         if (ShareHelper.authenticated()) {
-            new QuanLyKhoaHoc().setVisible(true);
+            new KhoaHocJFrame().setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
@@ -90,7 +90,7 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openChuyenDe() {
         if (ShareHelper.authenticated()) {
-            new QuanLyChuyenDe().setVisible(true);
+            new ChuyenDeJFrame().setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
@@ -98,7 +98,7 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openNguoiHoc() {
         if (ShareHelper.authenticated()) {
-            new QuanLyNguoiHoc().setVisible(true);
+            new NguoiHocJFrame().setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
@@ -106,14 +106,14 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openTongHopThongKe(int index) {
         if (ShareHelper.authenticated()) {
-            new TongHopThongKe(index).setVisible(true);
+            new ThongKeJFrame(index).setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
 
     void openAbout() {
-        new GioiThieu().setVisible(true);
+        new GioiThieuJDialog().setVisible(true);
     }
 
     void openWebsizes() {

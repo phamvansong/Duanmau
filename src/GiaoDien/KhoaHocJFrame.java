@@ -24,12 +24,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author pvsla
  */
-public class QuanLyKhoaHoc extends javax.swing.JFrame {
+public class KhoaHocJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form QuanLyKhoaHoc
      */
-    public QuanLyKhoaHoc() {
+    public KhoaHocJFrame() {
         initComponents();
         init();
         txtNguoiTao.setEditable(false);
@@ -187,7 +187,7 @@ public class QuanLyKhoaHoc extends javax.swing.JFrame {
 
     void openHocVien() {
         Integer id = Integer.valueOf(cboChuyenDe.getToolTipText());
-        new QuanLyHocVien(id).setVisible(true);
+        new HocVienJFrame(id).setVisible(true);
     }
 
     void fillComboBox() {
@@ -654,7 +654,7 @@ boolean flag = false;
         if (ma == null) {
             DialogHelper.alert(this, "Chưa chọn học viên");
         } else {
-            new QuanLyHocVien(ma).setVisible(true);
+            new HocVienJFrame(ma).setVisible(true);
             System.out.println(ma);
         }
     }//GEN-LAST:event_btnStudentsActionPerformed
@@ -721,19 +721,20 @@ boolean flag = false;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(QuanLyKhoaHoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KhoaHocJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(QuanLyKhoaHoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KhoaHocJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(QuanLyKhoaHoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KhoaHocJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(QuanLyKhoaHoc.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KhoaHocJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new QuanLyKhoaHoc().setVisible(true);
+            new KhoaHocJFrame().setVisible(true);
         });
     }
 

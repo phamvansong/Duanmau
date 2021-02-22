@@ -17,12 +17,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author pvsla
  */
-public class TongHopThongKe extends javax.swing.JFrame {
+public class ThongKeJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form TongHopThongKe
      */
-    public TongHopThongKe() {
+    public ThongKeJFrame() {
         initComponents();
         init();
         fillComboBoxKhoaHoc();
@@ -35,7 +35,7 @@ public class TongHopThongKe extends javax.swing.JFrame {
     ThongKeDAO dao = new ThongKeDAO();
     KhoaHocDAO khdao = new KhoaHocDAO();
 
-    TongHopThongKe(int index) {
+    ThongKeJFrame(int index) {
         initComponents();
         init();
         fillComboBoxKhoaHoc();
@@ -361,20 +361,21 @@ public class TongHopThongKe extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TongHopThongKe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThongKeJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TongHopThongKe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThongKeJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TongHopThongKe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThongKeJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TongHopThongKe.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ThongKeJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TongHopThongKe().setVisible(true);
+                new ThongKeJFrame().setVisible(true);
             }
         });
     }

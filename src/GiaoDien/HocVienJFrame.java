@@ -22,12 +22,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author pvsla
  */
-public class QuanLyHocVien extends javax.swing.JFrame {
+public class HocVienJFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form QuanLyHocVien
      */
-    public QuanLyHocVien() {
+    public HocVienJFrame() {
         initComponents();
         init();
         fillComboBox();
@@ -37,7 +37,7 @@ public class QuanLyHocVien extends javax.swing.JFrame {
     HocVienDAO dao = new HocVienDAO();
     NguoiHocDAO nhdao = new NguoiHocDAO();
 
-    QuanLyHocVien(Integer id) {
+    HocVienJFrame(Integer id) {
         initComponents();
         init();
         MaKH = id;
@@ -387,20 +387,21 @@ public class QuanLyHocVien extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(QuanLyHocVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HocVienJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(QuanLyHocVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HocVienJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(QuanLyHocVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HocVienJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(QuanLyHocVien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(HocVienJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new QuanLyHocVien().setVisible(true);
+                new HocVienJFrame().setVisible(true);
             }
         });
     }
