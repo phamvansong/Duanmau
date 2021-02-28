@@ -45,7 +45,7 @@ public class QuanLy extends javax.swing.JFrame {
         try {
             jDesktopPane1.getAllFrames()[0].setVisible(false);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
@@ -133,7 +133,7 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openTongHopThongKe(int index) {
         if (ShareHelper.authenticated()) {
-            ThongKeJFrame thtk = new ThongKeJFrame();
+            ThongKeJFrame thtk = new ThongKeJFrame(index);
             close();
             jDesktopPane1.add(thtk);
             thtk.setVisible(true);
