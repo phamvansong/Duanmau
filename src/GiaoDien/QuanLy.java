@@ -41,17 +41,28 @@ public class QuanLy extends javax.swing.JFrame {
         }).start();
     }
 
+    void close() {
+        try {
+            jDesktopPane1.getAllFrames()[0].setVisible(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     void openLogin() {
         new DangNhapJDialog().setVisible(true);
     }
 
     void doiMatKhau() {
         if (ShareHelper.authenticated()) {
-            new DoiMatKhauJFrame().setVisible(true);
+            DoiMatKhauJFrame dmk = new DoiMatKhauJFrame();
+            close();
+            jDesktopPane1.add(dmk);
+            dmk.setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
-    }
+    }//tam thoi 1 cai nay da tk sss mk sss
 
     void openWelcome() {
         new ChaoJDialog().setVisible(true);
@@ -74,7 +85,11 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openNhanVien() {
         if (ShareHelper.authenticated()) {
-            new NhanVienJFrame().setVisible(true);
+            NhanVienJFrame nv = new NhanVienJFrame();
+            close();
+            jDesktopPane1.add(nv);
+            nv.setVisible(true);
+//            new NhanVienJFrame().setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
@@ -82,7 +97,11 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openKhoaHoc() {
         if (ShareHelper.authenticated()) {
-            new KhoaHocJFrame().setVisible(true);
+            KhoaHocJFrame kh = new KhoaHocJFrame();
+            close();
+            jDesktopPane1.add(kh);
+            kh.setVisible(true);
+//            new KhoaHocJFrame().setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
@@ -90,7 +109,11 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openChuyenDe() {
         if (ShareHelper.authenticated()) {
-            new ChuyenDeJFrame().setVisible(true);
+            ChuyenDeJFrame cd = new ChuyenDeJFrame();
+            close();
+            jDesktopPane1.add(cd);
+            cd.setVisible(true);
+//            new ChuyenDeJFrame().setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
@@ -98,7 +121,11 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openNguoiHoc() {
         if (ShareHelper.authenticated()) {
-            new NguoiHocJFrame().setVisible(true);
+            NguoiHocJFrame nh = new NguoiHocJFrame();
+            close();
+            jDesktopPane1.add(nh);
+            nh.setVisible(true);
+//            new NguoiHocJFrame().setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
@@ -106,13 +133,21 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openTongHopThongKe(int index) {
         if (ShareHelper.authenticated()) {
-            new ThongKeJFrame(index).setVisible(true);
+            ThongKeJFrame thtk = new ThongKeJFrame();
+            close();
+            jDesktopPane1.add(thtk);
+            thtk.setVisible(true);
+//            new ThongKeJFrame(index).setVisible(true);
         } else {
             DialogHelper.alert(this, "Vui lòng đăng nhập!");
         }
     }
 
     void openAbout() {
+        GioiThieuJDialog gt = new GioiThieuJDialog();
+            close();
+            jDesktopPane1.add(gt);
+            gt.setVisible(true);
         new GioiThieuJDialog().setVisible(true);
     }
 
@@ -142,8 +177,7 @@ public class QuanLy extends javax.swing.JFrame {
         btnnguoihoc = new javax.swing.JButton();
         btnkhoahoc = new javax.swing.JButton();
         btnhuongdan = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jDesktopPane1 = new javax.swing.JDesktopPane();
         lblTrangThai = new javax.swing.JLabel();
         lbldongho = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -247,7 +281,7 @@ public class QuanLy extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,36 +290,36 @@ public class QuanLy extends javax.swing.JFrame {
                 .addGap(0, 2, Short.MAX_VALUE))
         );
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/logo.png"))); // NOI18N
-
+        lblTrangThai.setForeground(new java.awt.Color(255, 255, 255));
         lblTrangThai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/Info.png"))); // NOI18N
         lblTrangThai.setText("Hệ quản lý đào tạo");
 
+        lbldongho.setForeground(new java.awt.Color(255, 255, 255));
         lbldongho.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/Alarm.png"))); // NOI18N
         lbldongho.setText("Đồng hồ");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+        jDesktopPane1.setLayer(lblTrangThai, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(lbldongho, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(lblTrangThai)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbldongho)
-                .addGap(51, 51, 51))
+                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap(485, Short.MAX_VALUE)
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTrangThai)
                     .addComponent(lbldongho))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         mnuHeThong.setText("Hệ thống");
@@ -449,14 +483,18 @@ public class QuanLy extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jDesktopPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jDesktopPane1)
+                .addContainerGap())
         );
 
         pack();
@@ -614,10 +652,9 @@ public class QuanLy extends javax.swing.JFrame {
     private javax.swing.JButton btnlogout;
     private javax.swing.JButton btnnguoihoc;
     private javax.swing.JButton btnstop;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JLabel lblTrangThai;
     private javax.swing.JLabel lbldongho;

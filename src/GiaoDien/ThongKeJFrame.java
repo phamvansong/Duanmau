@@ -11,13 +11,14 @@ import Model.KhoaHoc;
 import TienIchHelper.ShareHelper;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author pvsla
  */
-public class ThongKeJFrame extends javax.swing.JFrame {
+public class ThongKeJFrame extends JInternalFrame {
 
     /**
      * Creates new form TongHopThongKe
@@ -48,8 +49,8 @@ public class ThongKeJFrame extends javax.swing.JFrame {
     }
 
     void init() {
-        setIconImage(ShareHelper.APP_ICON);
-        setLocationRelativeTo(null);
+//        setIconImage(ShareHelper.APP_ICON);
+//        setLocationRelativeTo(null);
     }
 
     void fillComboBoxKhoaHoc() {

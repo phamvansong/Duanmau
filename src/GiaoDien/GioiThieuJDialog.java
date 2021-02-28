@@ -5,18 +5,20 @@
  */
 package GiaoDien;
 
+import javax.swing.JInternalFrame;
+
 /**
  *
  * @author pvsla
  */
-public class GioiThieuJDialog extends javax.swing.JFrame {
+public class GioiThieuJDialog extends JInternalFrame {
 
     /**
      * Creates new form GioiThieu
      */
     public GioiThieuJDialog() {
         initComponents();
-        setLocationRelativeTo(null);
+//        setLocationRelativeTo(null);
     }
 
     /**

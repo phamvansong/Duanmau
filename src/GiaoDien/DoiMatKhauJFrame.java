@@ -8,20 +8,22 @@ package GiaoDien;
 import DAO.NhanVienDAO;
 import TienIchHelper.DialogHelper;
 import TienIchHelper.ShareHelper;
+import javax.swing.JInternalFrame;
 
 /**
  *
  * @author pvsla
  */
-public class DoiMatKhauJFrame extends javax.swing.JFrame {
+public class DoiMatKhauJFrame extends JInternalFrame {
+    // 
 
     /**
      * Creates new form DoiMatKhau
      */
     public DoiMatKhauJFrame() {
         initComponents();
-        setLocationRelativeTo(null);
-        setIconImage(ShareHelper.APP_ICON);
+//        setLocationRelativeTo(null);
+//        setIconImage(ShareHelper.APP_ICON);
     }
     NhanVienDAO dao = new NhanVienDAO();
 
@@ -73,7 +75,7 @@ public class DoiMatKhauJFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("EduSys - Đổi mật khẩu");
         setBackground(new java.awt.Color(255, 255, 255));
-        setLocationByPlatform(true);
+        
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 102, 0));

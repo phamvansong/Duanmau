@@ -10,13 +10,14 @@ import Model.NhanVien;
 import TienIchHelper.DialogHelper;
 import TienIchHelper.ShareHelper;
 import java.util.List;
+import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author pvsla
  */
-public class NhanVienJFrame extends javax.swing.JFrame {
+public class NhanVienJFrame extends JInternalFrame {
 
     /**
      * Creates new form QuanLyNhanVien
@@ -30,8 +31,8 @@ public class NhanVienJFrame extends javax.swing.JFrame {
     NhanVienDAO dao = new NhanVienDAO();
 
     void init() {
-        setIconImage(ShareHelper.APP_ICON);
-        setLocationRelativeTo(null);
+//        setIconImage(ShareHelper.APP_ICON);
+//        setLocationRelativeTo(null);
         if (ShareHelper.USER != null) {
             load();
         } else {

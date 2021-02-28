@@ -14,13 +14,14 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JInternalFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author pvsla
  */
-public class NguoiHocJFrame extends javax.swing.JFrame {
+public class NguoiHocJFrame extends JInternalFrame {
 
     /**
      * Creates new form QuanLyNguoiHoc
@@ -33,8 +34,8 @@ public class NguoiHocJFrame extends javax.swing.JFrame {
     NguoiHocDAO dao = new NguoiHocDAO();
 
     void init() {
-        setIconImage(ShareHelper.APP_ICON);
-        setLocationRelativeTo(null);
+//        setIconImage(ShareHelper.APP_ICON);
+//        setLocationRelativeTo(null);
         if (ShareHelper.USER != null) {
             load();
         } else {
@@ -302,7 +303,7 @@ public class NguoiHocJFrame extends javax.swing.JFrame {
 
         jLabel5.setText("Điện thoại");
 
-        jLabel6.setText("Ngày sinh");
+        jLabel6.setText("Ngày sinh (dd/mm/yyyy)");
 
         jLabel7.setText("Địa chỉ email");
 
