@@ -20,7 +20,7 @@ public class DangNhapJDialog extends javax.swing.JFrame {
      * Creates new form DangNhap
      */
     public DangNhapJDialog() {
-        setIconImage(ShareHelper.APP_ICON);
+//        setIconImage(ShareHelper.APP_ICON);
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -78,6 +78,7 @@ public class DangNhapJDialog extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(new java.awt.Color(255, 255, 255));
+        getContentPane().setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -89,7 +90,6 @@ public class DangNhapJDialog extends javax.swing.JFrame {
 
         jLabel3.setText("Mật khẩu");
 
-        btndangnhap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/Key.png"))); // NOI18N
         btndangnhap.setText("Đăng nhập");
         btndangnhap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,7 +97,6 @@ public class DangNhapJDialog extends javax.swing.JFrame {
             }
         });
 
-        btnketthuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/Log out.png"))); // NOI18N
         btnketthuc.setText("Kết thúc");
         btnketthuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +105,6 @@ public class DangNhapJDialog extends javax.swing.JFrame {
         });
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Duanmau_Hinh/security.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
