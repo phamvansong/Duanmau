@@ -72,6 +72,8 @@ public class QuanLy extends javax.swing.JFrame {
         if (ShareHelper.authenticated()) {
             ShareHelper.logoff();
             DialogHelper.alert(this, "Đã đăng xuất!");
+            new DangNhapJDialog().setVisible(true);
+            this.dispose();
         } else {
             DialogHelper.alert(this, "Bạn chưa đăng nhập!");
         }
@@ -145,9 +147,9 @@ public class QuanLy extends javax.swing.JFrame {
 
     void openAbout() {
         GioiThieuJDialog gt = new GioiThieuJDialog();
-            close();
-            jDesktopPane1.add(gt);
-            gt.setVisible(true);
+        close();
+        jDesktopPane1.add(gt);
+        gt.setVisible(true);
         new GioiThieuJDialog().setVisible(true);
     }
 

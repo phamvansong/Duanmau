@@ -37,13 +37,15 @@ public class DoiMatKhauJFrame extends JInternalFrame {
             DialogHelper.alert(this, "Sai tên đăng nhập!");
         } else if (!matKhau.equals(ShareHelper.USER.getMatKhau())) {
             DialogHelper.alert(this, "Sai mật khẩu hiện tại!");
+        } else if (matKhauMoi.length() < 6 || matKhauMoi.length() > 16) {
+            DialogHelper.alert(this, "Mật khẩu từ 6 đến 16 ký tự");
         } else if (!matKhauMoi.equals(matKhauMoi2)) {
             DialogHelper.alert(this, "Xác nhận mật khẩu không đúng!");
         } else {
             ShareHelper.USER.setMatKhau(matKhauMoi);
             dao.update(ShareHelper.USER);
             DialogHelper.alert(this, "Đổi mật khẩu thành công!");
-        } 
+        }
     }
 
     void huyBo() {
@@ -179,6 +181,7 @@ public class DoiMatKhauJFrame extends JInternalFrame {
     private void btnDongYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDongYActionPerformed
         // TODO add your handling code here:
         doiMatKhau();
+        txtMaNV.setText("");
         txtMatKhau.setText("");
         txtMatKhauMoi.setText("");
         txtMatKhauMoi2.setText("");

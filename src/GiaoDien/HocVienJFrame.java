@@ -48,6 +48,7 @@ public class HocVienJFrame extends javax.swing.JFrame {
     void init() {
         setIconImage(ShareHelper.APP_ICON);
         setLocationRelativeTo(null);
+        rdoTatCa.setSelected(true);
     }
 
     void fillComboBox() {
@@ -338,7 +339,7 @@ public class HocVienJFrame extends javax.swing.JFrame {
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         // TODO add your handling code here:
         if (txtDiem.getText().equals("")) {
-            update();
+           DialogHelper.alert(this, "Cập nhật thất bại!");
         } else {
             check();
             if (flag == true) {

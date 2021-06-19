@@ -35,6 +35,7 @@ public class DangNhapJDialog extends javax.swing.JFrame {
                 String matKhau2 = nhanVien.getMatKhau();
                 if (matKhau.equals(matKhau2)) {
                     ShareHelper.USER = nhanVien;
+                    DialogHelper.alert(this, "Đăng nhâp thành công!");
                     new QuanLy().setVisible(true);
                     this.dispose();
                 } else {
